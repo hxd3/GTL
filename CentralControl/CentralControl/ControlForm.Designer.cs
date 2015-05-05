@@ -35,11 +35,6 @@
             this.exitAllButton = new System.Windows.Forms.Button();
             this.logAllPanel = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.logAllListView = new System.Windows.Forms.ListView();
-            this.typeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.timeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.deviceColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.dataColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.onlineListPanel = new System.Windows.Forms.Panel();
             this.onlineAllListView = new System.Windows.Forms.ListView();
             this.deviceTypeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,10 +44,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.deviceTimer = new System.Windows.Forms.Timer(this.components);
             this.logTimer = new System.Windows.Forms.Timer(this.components);
+            this.dataresume = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.buttonAllPanel.SuspendLayout();
             this.logAllPanel.SuspendLayout();
             this.onlineListPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataresume)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -60,25 +57,25 @@
             this.panel1.Controls.Add(this.buttonAllPanel);
             this.panel1.Controls.Add(this.logAllPanel);
             this.panel1.Controls.Add(this.onlineListPanel);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(825, 455);
+            this.panel1.Size = new System.Drawing.Size(825, 493);
             this.panel1.TabIndex = 0;
             // 
             // buttonAllPanel
             // 
             this.buttonAllPanel.Controls.Add(this.searchButton);
             this.buttonAllPanel.Controls.Add(this.exitAllButton);
-            this.buttonAllPanel.Location = new System.Drawing.Point(3, 421);
+            this.buttonAllPanel.Location = new System.Drawing.Point(3, 456);
             this.buttonAllPanel.Name = "buttonAllPanel";
-            this.buttonAllPanel.Size = new System.Drawing.Size(819, 31);
+            this.buttonAllPanel.Size = new System.Drawing.Size(819, 34);
             this.buttonAllPanel.TabIndex = 2;
             // 
             // searchButton
             // 
             this.searchButton.Location = new System.Drawing.Point(16, 4);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(75, 23);
+            this.searchButton.Size = new System.Drawing.Size(75, 25);
             this.searchButton.TabIndex = 1;
             this.searchButton.Text = "查询";
             this.searchButton.UseVisualStyleBackColor = true;
@@ -88,7 +85,7 @@
             // 
             this.exitAllButton.Location = new System.Drawing.Point(722, 4);
             this.exitAllButton.Name = "exitAllButton";
-            this.exitAllButton.Size = new System.Drawing.Size(75, 23);
+            this.exitAllButton.Size = new System.Drawing.Size(75, 25);
             this.exitAllButton.TabIndex = 0;
             this.exitAllButton.Text = "退出";
             this.exitAllButton.UseVisualStyleBackColor = true;
@@ -96,54 +93,21 @@
             // 
             // logAllPanel
             // 
+            this.logAllPanel.Controls.Add(this.dataresume);
             this.logAllPanel.Controls.Add(this.label2);
-            this.logAllPanel.Controls.Add(this.logAllListView);
-            this.logAllPanel.Location = new System.Drawing.Point(442, 3);
+            this.logAllPanel.Location = new System.Drawing.Point(289, 3);
             this.logAllPanel.Name = "logAllPanel";
-            this.logAllPanel.Size = new System.Drawing.Size(380, 412);
+            this.logAllPanel.Size = new System.Drawing.Size(533, 446);
             this.logAllPanel.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 12);
+            this.label2.Location = new System.Drawing.Point(26, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.Size = new System.Drawing.Size(67, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "数据履历：";
-            // 
-            // logAllListView
-            // 
-            this.logAllListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.typeColumnHeader,
-            this.timeColumnHeader,
-            this.deviceColumnHeader,
-            this.dataColumnHeader});
-            this.logAllListView.Location = new System.Drawing.Point(15, 37);
-            this.logAllListView.Name = "logAllListView";
-            this.logAllListView.Size = new System.Drawing.Size(343, 364);
-            this.logAllListView.TabIndex = 0;
-            this.logAllListView.UseCompatibleStateImageBehavior = false;
-            this.logAllListView.View = System.Windows.Forms.View.Details;
-            // 
-            // typeColumnHeader
-            // 
-            this.typeColumnHeader.Text = "接收/发送";
-            this.typeColumnHeader.Width = 66;
-            // 
-            // timeColumnHeader
-            // 
-            this.timeColumnHeader.Text = "时间";
-            this.timeColumnHeader.Width = 36;
-            // 
-            // deviceColumnHeader
-            // 
-            this.deviceColumnHeader.Text = "仪器代号";
-            // 
-            // dataColumnHeader
-            // 
-            this.dataColumnHeader.Text = "数据";
-            this.dataColumnHeader.Width = 177;
             // 
             // onlineListPanel
             // 
@@ -151,7 +115,7 @@
             this.onlineListPanel.Controls.Add(this.label1);
             this.onlineListPanel.Location = new System.Drawing.Point(0, 3);
             this.onlineListPanel.Name = "onlineListPanel";
-            this.onlineListPanel.Size = new System.Drawing.Size(436, 412);
+            this.onlineListPanel.Size = new System.Drawing.Size(283, 446);
             this.onlineListPanel.TabIndex = 0;
             // 
             // onlineAllListView
@@ -162,12 +126,13 @@
             this.deviceCodeColumnHeader,
             this.isVirtColumnHeader});
             this.onlineAllListView.FullRowSelect = true;
-            this.onlineAllListView.Location = new System.Drawing.Point(19, 37);
+            this.onlineAllListView.Location = new System.Drawing.Point(19, 40);
             this.onlineAllListView.Name = "onlineAllListView";
-            this.onlineAllListView.Size = new System.Drawing.Size(402, 364);
+            this.onlineAllListView.Size = new System.Drawing.Size(251, 394);
             this.onlineAllListView.TabIndex = 1;
             this.onlineAllListView.UseCompatibleStateImageBehavior = false;
             this.onlineAllListView.View = System.Windows.Forms.View.Details;
+            this.onlineAllListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.onlineAllListView_MouseClick);
             this.onlineAllListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.onlineAllListView_MouseDoubleClick);
             // 
             // deviceTypeColumnHeader
@@ -189,9 +154,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 12);
+            this.label1.Location = new System.Drawing.Point(17, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "在线仪器：";
             // 
@@ -205,11 +170,19 @@
             this.logTimer.Interval = 1000;
             this.logTimer.Tick += new System.EventHandler(this.logTimer_Tick);
             // 
+            // dataresume
+            // 
+            this.dataresume.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataresume.Location = new System.Drawing.Point(29, 40);
+            this.dataresume.Name = "dataresume";
+            this.dataresume.Size = new System.Drawing.Size(482, 394);
+            this.dataresume.TabIndex = 2;
+            // 
             // ControlForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(849, 479);
+            this.ClientSize = new System.Drawing.Size(849, 519);
             this.Controls.Add(this.panel1);
             this.Name = "ControlForm";
             this.Text = "仪器中控程序";
@@ -221,6 +194,7 @@
             this.logAllPanel.PerformLayout();
             this.onlineListPanel.ResumeLayout(false);
             this.onlineListPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataresume)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -233,13 +207,8 @@
         private System.Windows.Forms.Panel buttonAllPanel;
         private System.Windows.Forms.Button exitAllButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListView logAllListView;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button searchButton;
-        private System.Windows.Forms.ColumnHeader typeColumnHeader;
-        private System.Windows.Forms.ColumnHeader timeColumnHeader;
-        private System.Windows.Forms.ColumnHeader deviceColumnHeader;
-        private System.Windows.Forms.ColumnHeader dataColumnHeader;
         private System.Windows.Forms.ListView onlineAllListView;
         private System.Windows.Forms.ColumnHeader deviceTypeColumnHeader;
         private System.Windows.Forms.ColumnHeader deviceNameColumnHeader;
@@ -247,6 +216,7 @@
         private System.Windows.Forms.ColumnHeader isVirtColumnHeader;
         private System.Windows.Forms.Timer deviceTimer;
         private System.Windows.Forms.Timer logTimer;
+        private System.Windows.Forms.DataGridView dataresume;
     }
 }
 

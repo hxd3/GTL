@@ -94,7 +94,7 @@ namespace CentralControl
                         break;
                 }
                 Database mydb = new Database();
-                mydb.insertmmrinfo(1, mnum, curtpR, curphR, curdoR);
+                mydb.insertmmrinfo("1", mnum, curtpR, curphR, curdoR);
             }
         }
 

@@ -48,7 +48,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TwinCAT.Ads">
-      <HintPath>..\..\..\TwinCAT.Ads.dll</HintPath>
+      <HintPath>..\..\CentralControl\DLL\TwinCAT.Ads.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

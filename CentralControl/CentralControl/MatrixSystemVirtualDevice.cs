@@ -186,7 +186,7 @@ namespace CentralControl
                         }
 
                     Database mydb = new Database();
-                    mydb.inserthacod(1, OD_rowl, 1);
+                    mydb.inserthacod("1", OD_rowl, 1);
                 }
 
             }
@@ -200,7 +200,7 @@ namespace CentralControl
                 this.TH_humidity2 = Convert.ToInt32((String)msg.Data["TH_humidity2"]);
                 
                 Database mydb = new Database();
-                mydb.inserthactmpmod(1, 1, this.TH_temperature1, TH_temperature2, TH_temperature3, TH_humidity1, TH_humidity2); 
+                mydb.inserthactmpmod("1", 1, this.TH_temperature1, TH_temperature2, TH_temperature3, TH_humidity1, TH_humidity2); 
                  
             }
 
@@ -211,7 +211,7 @@ namespace CentralControl
                 this.Sys_Batch_Info = Convert.ToInt32((String)msg.Data["Sys_Batch_Info"]);
 
                 Database mydb = new Database();
-                mydb.inserthacstate(1, this.Sys_Status);
+                mydb.inserthacstate("1", this.Sys_Status);
             }
 
             if ("Code".Equals(reportType))
@@ -220,7 +220,7 @@ namespace CentralControl
                 this.Add_Num = (String)msg.Data["Rem_Num"];
 
                 Database mydb = new Database();
-                mydb.inserthacbarcode(Add_Num, Rem_Num, 1);
+                mydb.inserthacbarcode(Add_Num, Rem_Num, "1");
             }
 
             if ("Motor".Equals(reportType))
@@ -231,7 +231,7 @@ namespace CentralControl
                 this.Motor_Power = Convert.ToInt32((String)msg.Data["Motor_Power"]);
 
                 Database mydb = new Database();
-                mydb.inserthacengine(1, Motor_elecspeed, Motor_Power, Motor_text_speed, Motor_Status); 
+                mydb.inserthacengine("1", Motor_elecspeed, Motor_Power, Motor_text_speed, Motor_Status); 
             }
 
 

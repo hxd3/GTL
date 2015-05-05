@@ -70,7 +70,8 @@ namespace VirtialDevices
                 item.SubItems.Add(message.Time);
                 item.SubItems.Add(message.Device.Name);
                 item.SubItems.Add(message.Msg);
-                logsListView.Items.Add(item);
+                if (message.Msg!="heartbeat=heartbeat;")
+                    logsListView.Items.Add(item);
             }
 
             if (messages.Count > 0)
@@ -88,7 +89,11 @@ namespace VirtialDevices
                 }
             }
             logsListView.EndUpdate();
-
+            List<BaseDevice> devices = virtualDeviceManager.getAllDevices();
+            foreach (BaseDevice device in devices)
+            {
+                ((BaseVirtualDevice)device).send_heartbeat();
+            }
             logTimer.Start();
         }
 

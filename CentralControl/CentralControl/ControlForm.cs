@@ -20,6 +20,7 @@ namespace CentralControl
         private Socket mySocket;
         private Thread myThread;
         private DeviceManager deviceManager;
+        private Database mydb;
 
         public class TmpSocketReceiver
         {
@@ -201,6 +202,8 @@ namespace CentralControl
          */
         private void ControlForm_Load(object sender, EventArgs e)
         {
+            index = -1;
+            mydb = new Database();
             Control.CheckForIllegalCrossThreadCalls = false;
             IPAddress ip = IPAddress.Parse("0.0.0.0");
             IPEndPoint point = new IPEndPoint(ip, 8888);
@@ -316,24 +319,7 @@ namespace CentralControl
 
            
             List<DeviceMessage> messages = deviceManager.getAllMessages();
-            ListViewItem item = null;
-            logAllListView.BeginUpdate();
-            logAllListView.Items.Clear();
-
-            //foreach (DeviceMessage message in messages)
-            //{
-            //    item = new ListViewItem();
-            //    String type = "接收";
-            //    if (message.Type == DeviceMessage.DeviceMessageType.OUT) type = "发送";
-            //    item.Text = type;
-            //    item.SubItems.Add(message.Time);
-            //    item.SubItems.Add(message.Device.Name);
-            //    item.SubItems.Add(message.Msg);
-            //    logAllListView.Items.Add(item);
-            //}
-
-            //Database insert
-            Database mydb = new Database();
+            ListViewItem item = null;            
 
             for (int i = 0; i < messages.Count; i++ )
             {
@@ -341,33 +327,23 @@ namespace CentralControl
                 item = new ListViewItem();
                 String type = "接收";
                 if (message.Type == DeviceMessage.DeviceMessageType.OUT) type = "发送";
-                item.Text = type;
-                item.SubItems.Add(message.Time);
-                item.SubItems.Add(message.Device.Name);
-                item.SubItems.Add(message.Msg);
-                logAllListView.Items.Add(item);
-
                 //Database insert
-                mydb.insertlog(message.Msg, 1, type);
+                if (message.Msg != "heartbeat=heartbeat;")
+                    mydb.insertlog(message.Msg, message.Device.IdentifyID, type);
+                BaseDevice target = deviceManager.getDevice(message.Device.Code);
+                if (target != null)
+                    target.device_refresh();
             }
-
-            if (messages.Count > 0)
+            deviceManager.clearAllMessages();
+            if (index!=-1)
             {
-                foreach (ColumnHeader header in logAllListView.Columns)
-                {
-                    header.Width = -1;
-                }
+                BindingSource bindingSource1 = new BindingSource();
+                DataTable table = new DataTable();
+                table = mydb.getdataset(onlineAllListView.Items[index].SubItems[2].Text);
+                string device_id = onlineAllListView.Items[index].SubItems[2].Text;
+                bindingSource1.DataSource = table;
+                dataresume.DataSource = table.DefaultView;
             }
-            else
-            {
-                foreach (ColumnHeader header in logAllListView.Columns)
-                {
-                    header.Width = -2;
-                }
-            }
-            logAllListView.EndUpdate();
-
-
             logTimer.Start();
         }
 
@@ -416,6 +392,24 @@ namespace CentralControl
                         break;
 
                 }
+            }
+        }
+        private int index;
+
+        private void onlineAllListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            ListViewHitTestInfo info = onlineAllListView.HitTest(e.X, e.Y);
+            if (info.Item != null)
+            {
+
+                index = info.Item.Index;
+                BindingSource bindingSource1 = new BindingSource();
+                DataTable table = new DataTable();
+                table = mydb.getdataset(onlineAllListView.Items[index].SubItems[2].Text);
+                string device_id = onlineAllListView.Items[index].SubItems[2].Text;
+                bindingSource1.DataSource = table;
+                dataresume.DataSource = table.DefaultView;
+                //dataresume.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
             }
         }
     }
