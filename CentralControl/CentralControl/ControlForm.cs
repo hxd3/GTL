@@ -319,8 +319,10 @@ namespace CentralControl
 
            
             List<DeviceMessage> messages = deviceManager.getAllMessages();
-            ListViewItem item = null;            
-
+            ListViewItem item = null;
+            string devid="";
+            if (index>=0)
+                devid= onlineAllListView.Items[index].SubItems[2].Text;
             for (int i = 0; i < messages.Count; i++ )
             {
                 DeviceMessage message = messages[i];
@@ -329,13 +331,26 @@ namespace CentralControl
                 if (message.Type == DeviceMessage.DeviceMessageType.OUT) type = "发送";
                 //Database insert
                 if (message.Msg != "heartbeat=heartbeat;")
+                {
                     mydb.insertlog(message.Msg, message.Device.IdentifyID, type);
+                    if (devid!="" &&  message.Device.IdentifyID == devid)
+                    {
+                        item.Text = message.Msg;
+                        item.SubItems.Add(DateTime.Now.ToString());
+                        item.SubItems.Add(message.Device.IdentifyID);
+                        item.SubItems.Add(type);
+                        devicelog.Items.Add(item);
+                    }
+                }                    
                 BaseDevice target = deviceManager.getDevice(message.Device.Code);
                 if (target != null)
                     target.device_refresh();
+
             }
             deviceManager.clearAllMessages();
-            if (index!=-1)
+            if (devicelog.Items.Count>20)
+                devicelog.Items[devicelog.Items.Count - 1].EnsureVisible(); 
+            /*if (index!=-1)
             {
                 BindingSource bindingSource1 = new BindingSource();
                 DataTable table = new DataTable();
@@ -343,7 +358,7 @@ namespace CentralControl
                 string device_id = onlineAllListView.Items[index].SubItems[2].Text;
                 bindingSource1.DataSource = table;
                 dataresume.DataSource = table.DefaultView;
-            }
+            }*/
             logTimer.Start();
         }
 
@@ -401,14 +416,29 @@ namespace CentralControl
             ListViewHitTestInfo info = onlineAllListView.HitTest(e.X, e.Y);
             if (info.Item != null)
             {
-
                 index = info.Item.Index;
-                BindingSource bindingSource1 = new BindingSource();
-                DataTable table = new DataTable();
-                table = mydb.getdataset(onlineAllListView.Items[index].SubItems[2].Text);
-                string device_id = onlineAllListView.Items[index].SubItems[2].Text;
-                bindingSource1.DataSource = table;
-                dataresume.DataSource = table.DefaultView;
+                devicelog.Clear();
+                devicelog.Columns.Add("消息", 200, HorizontalAlignment.Left);
+                devicelog.Columns.Add("时间", 120, HorizontalAlignment.Left);
+                devicelog.Columns.Add("仪器id", 50, HorizontalAlignment.Left);
+                devicelog.Columns.Add("方向", 50, HorizontalAlignment.Left);
+                List<List<object>> a = new List<List<object>>();
+                a=mydb.getlog(onlineAllListView.Items[index].SubItems[2].Text);
+                for (int i=0;i<a.Count;i++)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = Convert.ToString(a[i][0]);
+                    item.SubItems.Add(Convert.ToString(a[i][1]));
+                    item.SubItems.Add(Convert.ToString(a[i][2]));
+                    item.SubItems.Add(Convert.ToString(a[i][3]));
+                    devicelog.Items.Add(item);
+                }
+                //BindingSource bindingSource1 = new BindingSource();
+                //DataTable table = new DataTable();
+                //table = mydb.getdataset(onlineAllListView.Items[index].SubItems[2].Text);
+                //string device_id = onlineAllListView.Items[index].SubItems[2].Text;
+                //bindingSource1.DataSource = table;
+                //dataresume.DataSource = table.DefaultView;
                 //dataresume.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
             }
         }

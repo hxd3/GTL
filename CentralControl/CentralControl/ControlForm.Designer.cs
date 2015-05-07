@@ -34,6 +34,7 @@
             this.searchButton = new System.Windows.Forms.Button();
             this.exitAllButton = new System.Windows.Forms.Button();
             this.logAllPanel = new System.Windows.Forms.Panel();
+            this.devicelog = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
             this.onlineListPanel = new System.Windows.Forms.Panel();
             this.onlineAllListView = new System.Windows.Forms.ListView();
@@ -44,12 +45,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.deviceTimer = new System.Windows.Forms.Timer(this.components);
             this.logTimer = new System.Windows.Forms.Timer(this.components);
-            this.dataresume = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.buttonAllPanel.SuspendLayout();
             this.logAllPanel.SuspendLayout();
             this.onlineListPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataresume)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -93,12 +92,21 @@
             // 
             // logAllPanel
             // 
-            this.logAllPanel.Controls.Add(this.dataresume);
+            this.logAllPanel.Controls.Add(this.devicelog);
             this.logAllPanel.Controls.Add(this.label2);
             this.logAllPanel.Location = new System.Drawing.Point(289, 3);
             this.logAllPanel.Name = "logAllPanel";
             this.logAllPanel.Size = new System.Drawing.Size(533, 446);
             this.logAllPanel.TabIndex = 1;
+            // 
+            // devicelog
+            // 
+            this.devicelog.Location = new System.Drawing.Point(29, 40);
+            this.devicelog.Name = "devicelog";
+            this.devicelog.Size = new System.Drawing.Size(482, 394);
+            this.devicelog.TabIndex = 2;
+            this.devicelog.UseCompatibleStateImageBehavior = false;
+            this.devicelog.View = System.Windows.Forms.View.Details;
             // 
             // label2
             // 
@@ -170,14 +178,6 @@
             this.logTimer.Interval = 1000;
             this.logTimer.Tick += new System.EventHandler(this.logTimer_Tick);
             // 
-            // dataresume
-            // 
-            this.dataresume.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataresume.Location = new System.Drawing.Point(29, 40);
-            this.dataresume.Name = "dataresume";
-            this.dataresume.Size = new System.Drawing.Size(482, 394);
-            this.dataresume.TabIndex = 2;
-            // 
             // ControlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,7 +194,6 @@
             this.logAllPanel.PerformLayout();
             this.onlineListPanel.ResumeLayout(false);
             this.onlineListPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataresume)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -216,7 +215,7 @@
         private System.Windows.Forms.ColumnHeader isVirtColumnHeader;
         private System.Windows.Forms.Timer deviceTimer;
         private System.Windows.Forms.Timer logTimer;
-        private System.Windows.Forms.DataGridView dataresume;
+        private System.Windows.Forms.ListView devicelog;
     }
 }
 

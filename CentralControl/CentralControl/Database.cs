@@ -200,6 +200,11 @@ namespace CentralControl
             return search("select * from ONLINEDEVICE");
         }
 
+        public List<List<object>> getlog( string device_id )
+        {
+            return search("select top 100 * from operatelog where Device_id='" + device_id + "' order by CurrentTime");
+        }
+
         public int insertonlinestate(string device_id, string whole)
         {
             List<List<object>> a = new List<List<object>>();
