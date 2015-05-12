@@ -47,7 +47,7 @@ namespace VirtialDevices
             List<DeviceMessage> messages = virtualDeviceManager.getAllMessages();
             ListViewItem item = null;
             logsListView.BeginUpdate();
-            logsListView.Items.Clear();
+            //logsListView.Items.Clear();
 
             //foreach (DeviceMessage message in messages)
             //{
@@ -72,7 +72,11 @@ namespace VirtialDevices
                 item.SubItems.Add(message.Msg);
                 if (message.Msg!="heartbeat=heartbeat;")
                     logsListView.Items.Add(item);
+                BaseDevice device=virtualDeviceManager.getDevice(message.Device.Name);
+                ((BaseVirtualDevice)device).device_refresh();
+
             }
+            virtualDeviceManager.clearMessages();
 
             if (messages.Count > 0)
             {
@@ -92,7 +96,15 @@ namespace VirtialDevices
             List<BaseDevice> devices = virtualDeviceManager.getAllDevices();
             foreach (BaseDevice device in devices)
             {
-                ((BaseVirtualDevice)device).send_heartbeat();
+                if (device.device_heartbeat())
+                    ((BaseVirtualDevice)device).send_heartbeat();
+                else
+                {
+                    ((BaseVirtualDevice)device).disconnect();
+                    device.init();
+                    ((BaseVirtualDevice)device).send_basic_info();
+                }
+                    
             }
             logTimer.Start();
         }

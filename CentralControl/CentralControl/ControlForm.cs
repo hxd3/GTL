@@ -292,6 +292,7 @@ namespace CentralControl
                 item.SubItems.Add(subItem);
 
                 onlineAllListView.Items.Add(item);
+                ((BaseVirtualDevice)device).send_heartbeat();
             }
 
 

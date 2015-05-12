@@ -39,6 +39,12 @@ namespace VirtialDevices
             isTerminating = true;
         }
 
+        public void disconnect()
+        {
+            mySocket.Dispose();
+            myThread.Abort();
+        }
+
         public override void SendMsg(String s)
         {
             lock (mySocket) 

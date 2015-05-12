@@ -92,6 +92,29 @@ namespace VirtialDevices
             }
         }
 
+        private int ttl;
+
+        public BaseDevice()
+        {
+            ttl = 0;
+        }
+
+        const int maxttl = 20;
+
+        public void device_refresh()
+        {
+            ttl = 0;
+        }
+
+        public bool device_heartbeat()
+        {
+            ttl++;
+            if (ttl < maxttl)
+                return true;
+            else
+                return false;
+        }
+
         private String ip;
         public String IP 
         {

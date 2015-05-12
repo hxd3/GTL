@@ -78,6 +78,15 @@ namespace GTLutils
             }
         }
 
+        public void send_heartbeat()
+        {
+            ModbusMessageDataCreator creator = new ModbusMessageDataCreator();
+            creator.addKeyPair("heartbeat", "heartbeat");
+            String msg = ModbusMessageHelper.createModbusMessage(ModbusMessage.messageTypeToByte(ModbusMessage.MessageType.SET), creator.getDataBytes());
+            ModbusMessage mod = ModbusMessageHelper.decodeModbusMessage(msg);
+            this.SendMsg(msg);
+        }
+
         public override void ReceiveMsg(String s) { }
 
         private void SocketReceiveMsg()//接收socket消息

@@ -20,6 +20,11 @@ namespace VirtialDevices
             return allMessages;
         }
 
+        public void clearMessages()
+        {
+            allMessages.Clear();
+        }
+
         public List<DeviceMessage> getDeviceMessage(BaseDevice device) 
         {
             List<DeviceMessage> result = new List<DeviceMessage>();
