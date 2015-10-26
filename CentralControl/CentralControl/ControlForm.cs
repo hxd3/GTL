@@ -12,6 +12,7 @@ using System.Threading;
 //TwinCAT.ads用于基于TwinCAT的通信
 //using TwinCAT.Ads;
 using GTLutils;
+using Instrument;
 
 namespace CentralControl
 {
@@ -20,7 +21,6 @@ namespace CentralControl
         private Socket mySocket;
         private Thread myThread;
         private DeviceManager deviceManager;
-        private Database mydb;
 
         public class TmpSocketReceiver
         {
@@ -96,6 +96,7 @@ namespace CentralControl
                 BaseVirtualDevice device = (BaseVirtualDevice)VirtualDeviceFactory.createVirtualDevice(type,true);
                 device.IsVirt = true;
                 device.CurrentDeviceType = type;
+                /*
                 if (type == DeviceType.Dispen)
                 {
                     String subType = (String)message.Data["SubType"];
@@ -107,7 +108,7 @@ namespace CentralControl
                     {
                         ((AutoDispenVirtualDevice)device).SubType = AutoDispenVirtualDevice.AutoDispenType.ShenKongBan;
                     }
-                }
+                }*/
                 device.IdentifyID = (String)message.Data["IdentifyID"];
                 device.Code = (String)message.Data["Code"];
                 device.IP = (String)message.Data["IP"];
@@ -202,8 +203,6 @@ namespace CentralControl
          */
         private void ControlForm_Load(object sender, EventArgs e)
         {
-            index = -1;
-            mydb = new Database();
             Control.CheckForIllegalCrossThreadCalls = false;
             IPAddress ip = IPAddress.Parse("0.0.0.0");
             IPEndPoint point = new IPEndPoint(ip, 8888);
@@ -292,7 +291,6 @@ namespace CentralControl
                 item.SubItems.Add(subItem);
 
                 onlineAllListView.Items.Add(item);
-                ((BaseVirtualDevice)device).send_heartbeat();
             }
 
 
@@ -321,45 +319,57 @@ namespace CentralControl
            
             List<DeviceMessage> messages = deviceManager.getAllMessages();
             ListViewItem item = null;
-            string devid="";
-            if (index>=0)
-                devid= onlineAllListView.Items[index].SubItems[2].Text;
+            logAllListView.BeginUpdate();
+            logAllListView.Items.Clear();
+
+            //foreach (DeviceMessage message in messages)
+            //{
+            //    item = new ListViewItem();
+            //    String type = "接收";
+            //    if (message.Type == DeviceMessage.DeviceMessageType.OUT) type = "发送";
+            //    item.Text = type;
+            //    item.SubItems.Add(message.Time);
+            //    item.SubItems.Add(message.Device.Name);
+            //    item.SubItems.Add(message.Msg);
+            //    logAllListView.Items.Add(item);
+            //}
+
+            //Database insert
+            //Database mydb = new Database();
+
             for (int i = 0; i < messages.Count; i++ )
             {
                 DeviceMessage message = messages[i];
                 item = new ListViewItem();
                 String type = "接收";
                 if (message.Type == DeviceMessage.DeviceMessageType.OUT) type = "发送";
-                //Database insert
-                if (message.Msg != "heartbeat=heartbeat;")
-                {
-                    mydb.insertlog(message.Msg, message.Device.IdentifyID, type);
-                    if (devid!="" &&  message.Device.IdentifyID == devid)
-                    {
-                        item.Text = message.Msg;
-                        item.SubItems.Add(DateTime.Now.ToString());
-                        item.SubItems.Add(message.Device.IdentifyID);
-                        item.SubItems.Add(type);
-                        devicelog.Items.Add(item);
-                    }
-                }                    
-                BaseDevice target = deviceManager.getDevice(message.Device.Code);
-                if (target != null)
-                    target.device_refresh();
+                item.Text = type;
+                item.SubItems.Add(message.Time);
+                item.SubItems.Add(message.Device.Name);
+                item.SubItems.Add(message.Msg);
+                logAllListView.Items.Add(item);
 
+                //Database insert
+                //mydb.insertlog(message.Msg, 1, type);
             }
-            deviceManager.clearAllMessages();
-            if (devicelog.Items.Count>20)
-                devicelog.Items[devicelog.Items.Count - 1].EnsureVisible(); 
-            /*if (index!=-1)
+
+            if (messages.Count > 0)
             {
-                BindingSource bindingSource1 = new BindingSource();
-                DataTable table = new DataTable();
-                table = mydb.getdataset(onlineAllListView.Items[index].SubItems[2].Text);
-                string device_id = onlineAllListView.Items[index].SubItems[2].Text;
-                bindingSource1.DataSource = table;
-                dataresume.DataSource = table.DefaultView;
-            }*/
+                foreach (ColumnHeader header in logAllListView.Columns)
+                {
+                    header.Width = -1;
+                }
+            }
+            else
+            {
+                foreach (ColumnHeader header in logAllListView.Columns)
+                {
+                    header.Width = -2;
+                }
+            }
+            logAllListView.EndUpdate();
+
+
             logTimer.Start();
         }
 
@@ -391,15 +401,45 @@ namespace CentralControl
                         }
                         form.Show();
                         break;
-
-
+                    case DeviceType.Plate:
+                        AutoPlateDeviceForm pform = new AutoPlateDeviceForm();
+                        pform.FatherForm = this;
+                        pform.IsSocket = true;
+                        pform.PlateDevice = (AutoPlateVirtualDevice)device;
+                        pform.Show();
+                        break;
+                    case DeviceType.Analysis:
+                        MultiTunnelDeviceForm mForm = new MultiTunnelDeviceForm();
+                        mForm.FatherForm = this;
+                        mForm.DeviceInfo = (MultiTunnelVirtualDevice)device;
+                        mForm.Show();
+                        break;
+                    case DeviceType.Clone:
+                        CloneSelectionDeviceForm cForm = new CloneSelectionDeviceForm();
+                        cForm.FatherForm = this;
+                        cForm.IsSocket = true;
+                        cForm.DeviceInfo = (CloneSelectionVirtualDevice)device;
+                        cForm.Show();
+                        break;
                     case DeviceType.Liquid:
                         LiquidProcessForm forml = new LiquidProcessForm();
                         forml.FatherForm = this;
                         forml.DeviceInfo = device;
                         forml.Show();
                         break;
-                    
+                    case DeviceType.Matrix:
+                        MatrixSystemDeviceForm maForm = new MatrixSystemDeviceForm();
+                        maForm.FatherForm = this;
+                        maForm.IsSocket = true;
+                        maForm.DeviceInfo = (MatrixSystemVirtualDevice)device;
+                        maForm.Show();
+                        break;
+                    case DeviceType.Storage:
+                        MicroReactorForm mmForm = new MicroReactorForm();
+                        mmForm.FatherForm = this;
+                        mmForm.mrDevice = (MicroStorageVirtualDevice)device;
+                        mmForm.Show();
+                        break;
                     default:
                         DeviceInfoForm form2 = new DeviceInfoForm();
                         form2.FatherForm = this;
@@ -408,39 +448,6 @@ namespace CentralControl
                         break;
 
                 }
-            }
-        }
-        private int index;
-
-        private void onlineAllListView_MouseClick(object sender, MouseEventArgs e)
-        {
-            ListViewHitTestInfo info = onlineAllListView.HitTest(e.X, e.Y);
-            if (info.Item != null)
-            {
-                index = info.Item.Index;
-                devicelog.Clear();
-                devicelog.Columns.Add("消息", 200, HorizontalAlignment.Left);
-                devicelog.Columns.Add("时间", 120, HorizontalAlignment.Left);
-                devicelog.Columns.Add("仪器id", 50, HorizontalAlignment.Left);
-                devicelog.Columns.Add("方向", 50, HorizontalAlignment.Left);
-                List<List<object>> a = new List<List<object>>();
-                a=mydb.getlog(onlineAllListView.Items[index].SubItems[2].Text);
-                for (int i=0;i<a.Count;i++)
-                {
-                    ListViewItem item = new ListViewItem();
-                    item.Text = Convert.ToString(a[i][0]);
-                    item.SubItems.Add(Convert.ToString(a[i][1]));
-                    item.SubItems.Add(Convert.ToString(a[i][2]));
-                    item.SubItems.Add(Convert.ToString(a[i][3]));
-                    devicelog.Items.Add(item);
-                }
-                //BindingSource bindingSource1 = new BindingSource();
-                //DataTable table = new DataTable();
-                //table = mydb.getdataset(onlineAllListView.Items[index].SubItems[2].Text);
-                //string device_id = onlineAllListView.Items[index].SubItems[2].Text;
-                //bindingSource1.DataSource = table;
-                //dataresume.DataSource = table.DefaultView;
-                //dataresume.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
             }
         }
     }

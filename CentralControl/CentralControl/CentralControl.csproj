@@ -13,6 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>发布\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -52,9 +52,6 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GTLutils">
-      <HintPath>..\GTLutils\bin\Debug\GTLutils.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -74,8 +71,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoDispenTwincatDevice.cs" />
-    <Compile Include="AutoDispenVirtualDevice.cs" />
     <Compile Include="AutoDispenDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,22 +83,18 @@
     <Compile Include="CloneSelectionDeviceForm.Designer.cs">
       <DependentUpon>CloneSelectionDeviceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CloneSelectionVirtualDevice.cs" />
     <Compile Include="ControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ControlForm.Designer.cs">
       <DependentUpon>ControlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database.cs" />
-    <Compile Include="DataOperate.cs" />
     <Compile Include="DataQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DataQueryForm.Designer.cs">
       <DependentUpon>DataQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DBUtil.cs" />
     <Compile Include="DeviceInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,31 +107,32 @@
     <Compile Include="LiquidProcessForm.Designer.cs">
       <DependentUpon>LiquidProcessForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LiquidProcessVirtualDevice.cs" />
     <Compile Include="MatrixSystemDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MatrixSystemDeviceForm.Designer.cs">
       <DependentUpon>MatrixSystemDeviceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MatrixSystemVirtualDevice.cs" />
     <Compile Include="MicroReactorForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MicroReactorForm.designer.cs">
       <DependentUpon>MicroReactorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MicroStorageVirtualDevice.cs" />
     <Compile Include="MultiTunnelDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MultiTunnelDeviceForm.Designer.cs">
       <DependentUpon>MultiTunnelDeviceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MultiTunnelVirtualDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VirtualDeviceFactory.cs" />
+    <Compile Include="AutoPlateDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoPlateDeviceForm.Designer.cs">
+      <DependentUpon>AutoPlateDeviceForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AutoDispenDeviceForm.resx">
       <DependentUpon>AutoDispenDeviceForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,7 +169,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="App.config" />
+    <EmbeddedResource Include="AutoPlateDeviceForm.resx">
+      <DependentUpon>AutoPlateDeviceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -212,6 +209,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GTLutils\GTLutils.csproj">
+      <Project>{41b3c4f8-528f-4ff7-a604-5594d3865358}</Project>
+      <Name>GTLutils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Instrument\Instrument.csproj">
+      <Project>{186788b0-17c2-4ee9-873b-bf27734f9938}</Project>
+      <Name>Instrument</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

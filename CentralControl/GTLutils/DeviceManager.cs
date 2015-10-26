@@ -20,11 +20,6 @@ namespace GTLutils
             return allMessages;
         }
 
-        public void clearAllMessages()
-        {
-            allMessages.Clear();
-        }
-
         public List<DeviceMessage> getDeviceMessage(BaseDevice device) 
         {
             List<DeviceMessage> result = new List<DeviceMessage>();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DeviceUtils;
+using Instrument;
 
 namespace VirtialDevices
 {
@@ -14,9 +16,9 @@ namespace VirtialDevices
             if (inter.getFileType() != XmlFileHelper.XmlFileType.CloneSelect) return res;
             try
             {
-                res = new float[CloneSelectionDevice.JianCeHangShu][];
+                res = new float[CloneSelectionDevice.SCP_TestRowNum][];
                 int b = 0;
-                for (int i = 0; i < CloneSelectionDevice.JianCeHangShu; i++)
+                for (int i = 0; i < CloneSelectionDevice.SCP_TestRowNum; i++)
                 {
                     res[i] = new float[JianCeLieShu];
                     for (int j = 0; j < JianCeLieShu; j++)
@@ -33,7 +35,7 @@ namespace VirtialDevices
 
         public static void setJianCeShuJu(String FileName, float[][] v, int JianCeLieShu)
         {
-            if (v.Length != CloneSelectionDevice.JianCeHangShu) return;
+            if (v.Length != CloneSelectionDevice.SCP_TestRowNum) return;
             for (int i = 0; i < v.Length; i++)
             {
                 if (v[i].Length != JianCeLieShu) return;
@@ -41,7 +43,7 @@ namespace VirtialDevices
 
             XmlFileCreator creator = new XmlFileCreator(XmlFileHelper.XmlFileType.CloneSelect, FileName);
             int b = 0;
-            for (int i = 0; i < CloneSelectionDevice.JianCeHangShu; i++)
+            for (int i = 0; i < CloneSelectionDevice.SCP_TestRowNum; i++)
             {
                 for (int j = 0; j < JianCeLieShu; j++)
                 {

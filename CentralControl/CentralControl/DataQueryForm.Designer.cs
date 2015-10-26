@@ -35,7 +35,7 @@
             this.searchResultListView = new System.Windows.Forms.ListView();
             this.label3 = new System.Windows.Forms.Label();
             this.conditionPanel = new System.Windows.Forms.Panel();
-            this.searchDataButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.concreteConPanel = new System.Windows.Forms.Panel();
             this.delConButton = new System.Windows.Forms.Button();
             this.conNameTextBox = new System.Windows.Forms.TextBox();
@@ -54,15 +54,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.dataTableComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.searchDataButton = new System.Windows.Forms.Button();
             this.deviceTypeComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             this.buttonPanel.SuspendLayout();
             this.resultPanel.SuspendLayout();
             this.conditionPanel.SuspendLayout();
-            this.concreteConPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.concreteConPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -125,7 +125,6 @@
             // conditionPanel
             // 
             this.conditionPanel.Controls.Add(this.groupBox1);
-            this.conditionPanel.Controls.Add(this.searchDataButton);
             this.conditionPanel.Controls.Add(this.deviceTypeComboBox);
             this.conditionPanel.Controls.Add(this.label1);
             this.conditionPanel.Location = new System.Drawing.Point(3, 3);
@@ -133,19 +132,20 @@
             this.conditionPanel.Size = new System.Drawing.Size(701, 307);
             this.conditionPanel.TabIndex = 0;
             // 
-            // searchDataButton
+            // groupBox1
             // 
-            this.searchDataButton.Location = new System.Drawing.Point(521, 9);
-            this.searchDataButton.Name = "searchDataButton";
-            this.searchDataButton.Size = new System.Drawing.Size(75, 25);
-            this.searchDataButton.TabIndex = 4;
-            this.searchDataButton.Text = "检索";
-            this.searchDataButton.UseVisualStyleBackColor = true;
-            this.searchDataButton.Click += new System.EventHandler(this.searchDataButton_Click);
+            this.groupBox1.Controls.Add(this.concreteConPanel);
+            this.groupBox1.Location = new System.Drawing.Point(12, 40);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(686, 255);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "检索条件";
             // 
             // concreteConPanel
             // 
             this.concreteConPanel.Controls.Add(this.delConButton);
+            this.concreteConPanel.Controls.Add(this.searchDataButton);
             this.concreteConPanel.Controls.Add(this.conNameTextBox);
             this.concreteConPanel.Controls.Add(this.label8);
             this.concreteConPanel.Controls.Add(this.saveButton);
@@ -175,6 +175,7 @@
             this.delConButton.TabIndex = 16;
             this.delConButton.Text = "删除";
             this.delConButton.UseVisualStyleBackColor = true;
+            this.delConButton.Visible = false;
             // 
             // conNameTextBox
             // 
@@ -182,6 +183,7 @@
             this.conNameTextBox.Name = "conNameTextBox";
             this.conNameTextBox.Size = new System.Drawing.Size(244, 20);
             this.conNameTextBox.TabIndex = 15;
+            this.conNameTextBox.Visible = false;
             // 
             // label8
             // 
@@ -191,6 +193,7 @@
             this.label8.Size = new System.Drawing.Size(67, 13);
             this.label8.TabIndex = 14;
             this.label8.Text = "条件名称：";
+            this.label8.Visible = false;
             // 
             // saveButton
             // 
@@ -200,6 +203,8 @@
             this.saveButton.TabIndex = 13;
             this.saveButton.Text = "保存";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Visible = false;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // clearButton
             // 
@@ -244,6 +249,7 @@
             this.operationTypeComboBox.Name = "operationTypeComboBox";
             this.operationTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.operationTypeComboBox.TabIndex = 8;
+            this.operationTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.operationTypeComboBox_SelectedIndexChanged);
             // 
             // savedConComboBox
             // 
@@ -253,6 +259,7 @@
             this.savedConComboBox.Name = "savedConComboBox";
             this.savedConComboBox.Size = new System.Drawing.Size(121, 21);
             this.savedConComboBox.TabIndex = 7;
+            this.savedConComboBox.Visible = false;
             // 
             // label7
             // 
@@ -262,6 +269,7 @@
             this.label7.Size = new System.Drawing.Size(103, 13);
             this.label7.TabIndex = 6;
             this.label7.Text = "选择已保存条件：";
+            this.label7.Visible = false;
             // 
             // segmentComboBox
             // 
@@ -318,6 +326,16 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "数据表：";
             // 
+            // searchDataButton
+            // 
+            this.searchDataButton.Location = new System.Drawing.Point(43, 190);
+            this.searchDataButton.Name = "searchDataButton";
+            this.searchDataButton.Size = new System.Drawing.Size(75, 25);
+            this.searchDataButton.TabIndex = 4;
+            this.searchDataButton.Text = "检索";
+            this.searchDataButton.UseVisualStyleBackColor = true;
+            this.searchDataButton.Click += new System.EventHandler(this.searchDataButton_Click);
+            // 
             // deviceTypeComboBox
             // 
             this.deviceTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -326,6 +344,7 @@
             this.deviceTypeComboBox.Name = "deviceTypeComboBox";
             this.deviceTypeComboBox.Size = new System.Drawing.Size(201, 21);
             this.deviceTypeComboBox.TabIndex = 1;
+            this.deviceTypeComboBox.Visible = false;
             // 
             // label1
             // 
@@ -335,16 +354,7 @@
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "仪器类型：";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.concreteConPanel);
-            this.groupBox1.Location = new System.Drawing.Point(12, 40);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(686, 255);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "检索条件";
+            this.label1.Visible = false;
             // 
             // DataQueryForm
             // 
@@ -362,9 +372,9 @@
             this.resultPanel.PerformLayout();
             this.conditionPanel.ResumeLayout(false);
             this.conditionPanel.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.concreteConPanel.ResumeLayout(false);
             this.concreteConPanel.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

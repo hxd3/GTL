@@ -49,6 +49,9 @@ namespace CentralControl
                 dataTableComboBox.Items.Add(s);
             }
             dataTableComboBox.SelectedIndex = 0;
+            segmentComboBox.Items.Clear();
+            segmentComboBox.Items.Add("CurrentTime");
+            segmentComboBox.Items.Add("Device_Id");
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -63,7 +66,7 @@ namespace CentralControl
 
         private void dataTableComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String tableName = dataTableComboBox.SelectedItem.ToString();
+            /*String tableName = dataTableComboBox.SelectedItem.ToString();
             ArrayList list = DBUtil.getTableColumns(tableName);
             segmentComboBox.Items.Clear();
             foreach (String s in list) 
@@ -71,7 +74,7 @@ namespace CentralControl
                 segmentComboBox.Items.Add(s);
             }
             if(list.Count > 0)segmentComboBox.SelectedIndex = 0;
-            textBox1.Text = "";
+            textBox1.Text = "";*/
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -79,8 +82,8 @@ namespace CentralControl
             if (opValueTextBox.Text.Equals("")) return;
             String con = "";
             con = segmentComboBox.SelectedItem.ToString() + " " + operationTypeComboBox.SelectedItem.ToString() + " '" + opValueTextBox.Text + "' ";
-            String opStr = "&&";
-            if (logicTypeComboBox.SelectedIndex > 0) opStr = "||";
+            String opStr = "and";
+            if (logicTypeComboBox.SelectedIndex > 0) opStr = "or";
             if (textBox1.Text.Equals("")) textBox1.Text = con;
             else textBox1.Text = "(" + textBox1.Text + ") "+ opStr + " " + con;
         }
@@ -93,10 +96,17 @@ namespace CentralControl
         private void searchDataButton_Click(object sender, EventArgs e)
         {
             String conStr = textBox1.Text;
-            String cmdStr = "select * from " + dataTableComboBox.SelectedItem.ToString();
+            String cmdStr = "from " + dataTableComboBox.SelectedItem.ToString();
             if (!conStr.Equals("")) cmdStr += " where " + conStr;
             cmdStr += ";";
             ArrayList colList = DBUtil.getTableColumns(dataTableComboBox.SelectedItem.ToString());
+            String tempstr = "select ";
+            for (int i=0;i<colList.Count;i++)
+            {
+                tempstr = tempstr + colList[i].ToString();
+                if (i < colList.Count-1) tempstr = tempstr + ",";
+            }
+            cmdStr = tempstr +" "+cmdStr;
             ArrayList list = DBUtil.executeQueryCmd(cmdStr,colList.Count);
 
             searchResultListView.Columns.Clear();
@@ -118,6 +128,16 @@ namespace CentralControl
                 }
                 searchResultListView.Items.Add(item);
             }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void operationTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DeviceUtils;
+using Instrument;
 
 namespace VirtialDevices
 {
@@ -14,11 +16,11 @@ namespace VirtialDevices
         public VirtualDevicesForm()
         {
             InitializeComponent();
-            virtualDeviceManager = VirtualDeviceManager.getInstance();
+            virtualDeviceManager = DeviceManager.getInstance();
             logTimer.Start();
         }
 
-        private VirtualDeviceManager virtualDeviceManager;
+        private DeviceManager virtualDeviceManager;
 
         private object KeyObject = new object();
 
@@ -47,7 +49,7 @@ namespace VirtialDevices
             List<DeviceMessage> messages = virtualDeviceManager.getAllMessages();
             ListViewItem item = null;
             logsListView.BeginUpdate();
-            //logsListView.Items.Clear();
+            logsListView.Items.Clear();
 
             //foreach (DeviceMessage message in messages)
             //{
@@ -70,13 +72,8 @@ namespace VirtialDevices
                 item.SubItems.Add(message.Time);
                 item.SubItems.Add(message.Device.Name);
                 item.SubItems.Add(message.Msg);
-                if (message.Msg!="heartbeat=heartbeat;")
-                    logsListView.Items.Add(item);
-                BaseDevice device=virtualDeviceManager.getDevice(message.Device.Name);
-                ((BaseVirtualDevice)device).device_refresh();
-
+                logsListView.Items.Add(item);
             }
-            virtualDeviceManager.clearMessages();
 
             if (messages.Count > 0)
             {
@@ -93,19 +90,7 @@ namespace VirtialDevices
                 }
             }
             logsListView.EndUpdate();
-            List<BaseDevice> devices = virtualDeviceManager.getAllDevices();
-            foreach (BaseDevice device in devices)
-            {
-                if (device.device_heartbeat())
-                    ((BaseVirtualDevice)device).send_heartbeat();
-                else
-                {
-                    ((BaseVirtualDevice)device).disconnect();
-                    device.init();
-                    ((BaseVirtualDevice)device).send_basic_info();
-                }
-                    
-            }
+
             logTimer.Start();
         }
 

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DeviceUtils;
+using Instrument;
 
 namespace VirtialDevices
 {
@@ -32,12 +34,12 @@ namespace VirtialDevices
             form.IsSocket = IsSocket;
             if (comboBox1.SelectedIndex == 0)
             {
-                form.DispenType = AutoDispenDevice.AutoDispenType.PeiYangMin;
+                //form.DispenType = AutoDispenDevice.AutoDispenType.PeiYangMin;
                 form.DispenTwincatType = AutoDispenTwincatDevice.AutoDispenType.PeiYangMin;
             }
             else
             {
-                form.DispenType = AutoDispenDevice.AutoDispenType.ShenKongBan;
+                //form.DispenType = AutoDispenDevice.AutoDispenType.ShenKongBan;
                 form.DispenTwincatType = AutoDispenTwincatDevice.AutoDispenType.ShenKongBan;
             }
             this.Close();

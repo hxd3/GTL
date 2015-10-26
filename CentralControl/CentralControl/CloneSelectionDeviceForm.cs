@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GTLutils;
+using Instrument;
 
 namespace CentralControl
 {
     public partial class CloneSelectionDeviceForm : Form
     {
-        public DeviceInfoForm FatherForm;
+        public ControlForm FatherForm;
         public bool IsSocket;
         public CloneSelectionVirtualDevice DeviceInfo;
 

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DeviceUtils;
+using Instrument;
 
 namespace VirtialDevices
 {
@@ -50,14 +52,14 @@ namespace VirtialDevices
                 float start = float.Parse(qiShiZhiTextBox.Text);
                 String fileName = luJingLabel.Text;
                 float[][] v;
-                v = new float[MultiTunnelDevice.JianCeHangShu][];
-                for (int i = 0; i < MultiTunnelDevice.JianCeHangShu; i++) 
+                v = new float[MultiTunnelDevice.MMA_TestRowIndex][];
+                for (int i = 0; i < MultiTunnelDevice.MMA_TestRowIndex; i++) 
                 {
-                    v[i] = new float[MultiTunnelDevice.JianCeLieShu];
+                    v[i] = new float[MultiTunnelDevice.MMA_TestRowIndex];
                 }
-                for (int i = 0; i < MultiTunnelDevice.JianCeHangShu; i++)
+                for (int i = 0; i < MultiTunnelDevice.MMA_TestRowIndex; i++)
                 {
-                    for (int j = 0; j < MultiTunnelDevice.JianCeLieShu; j++) 
+                    for (int j = 0; j < MultiTunnelDevice.MMA_TestRowIndex; j++) 
                     {
                         v[i][j] = start;
                         start += inc;
